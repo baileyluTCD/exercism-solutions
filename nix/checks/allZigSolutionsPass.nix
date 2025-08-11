@@ -2,10 +2,13 @@
 let
   inherit (pkgs) stdenv lib;
 
-  zig-dir = builtins.readDir (flake + "/zig");
-  dir-contents = lib.attrsToList zig-dir;
-  directories = builtins.filter ({ value, ... }: value == "directory") dir-contents;
-  zig-solutions = builtins.map ({ name, ... }: name) directories;
+  names = lib.pipe (flake + "/zig") [
+    (dir: builtins.readDir dir)
+    (contents: lib.attrsToList contents)
+    (contentsList: builtins.filter ({ value, ... }: value == "directory") contentsList)
+    (childDirs: builtins.map ({ name, ... }: name) childDirs)
+  ];
+
   derivations = builtins.map (
     name:
     stdenv.mkDerivation {
@@ -29,7 +32,7 @@ let
         mkdir -p "$out"
       '';
     }
-  ) zig-solutions;
+  ) names;
 in
 pkgs.symlinkJoin {
   name = "zig-solutions";
