@@ -1,6 +1,6 @@
 { pkgs, flake, ... }:
 let
-  inherit (pkgs) stdenv lib;
+  inherit (pkgs) stdenvNoCC lib;
 
   names = lib.pipe (flake + "/zig") [
     (dir: builtins.readDir dir)
@@ -11,7 +11,7 @@ let
 
   derivations = builtins.map (
     name:
-    stdenv.mkDerivation {
+    stdenvNoCC.mkDerivation {
       name = "zig-solution-${name}";
       src = (flake + "/zig/" + name);
 
