@@ -2,6 +2,6 @@
 pkgs.mkShellNoCC {
   packages = with pkgs; [
     exercism
-    zig
+    zig_0_15
   ];
 }

@@ -16,7 +16,7 @@ let
       src = (flake + "/zig/" + name);
 
       nativeBuildInputs = with pkgs; [
-        zig.hook
+        zig_0_15.hook
       ];
 
       dontBuild = true;

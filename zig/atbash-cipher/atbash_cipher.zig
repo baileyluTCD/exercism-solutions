@@ -20,13 +20,13 @@ pub fn encode(allocator: mem.Allocator, s: []const u8) mem.Allocator.Error![]u8 
     for (s) |letter| {
         if (!ascii.isAlphanumeric(letter)) continue;
 
-        if (count != 0 and count % 5 == 0) try out.append(' ');
+        if (count != 0 and count % 5 == 0) try out.append(allocator, ' ');
 
-        try out.append(transpose(letter));
+        try out.append(allocator, transpose(letter));
         count += 1;
     }
 
-    return out.toOwnedSlice();
+    return out.toOwnedSlice(allocator);
 }
 
 /// Decodes `s` using the Atbash cipher. Caller owns the returned memory.
@@ -36,8 +36,8 @@ pub fn decode(allocator: mem.Allocator, s: []const u8) mem.Allocator.Error![]u8 
     for (s) |letter| {
         if (!ascii.isAlphanumeric(letter)) continue;
 
-        try out.append(transpose(letter));
+        try out.append(allocator, transpose(letter));
     }
 
-    return out.toOwnedSlice();
+    return out.toOwnedSlice(allocator);
 }

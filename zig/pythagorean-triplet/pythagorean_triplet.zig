@@ -25,8 +25,8 @@ pub const Triplet = struct {
 };
 
 pub fn tripletsWithSum(allocator: mem.Allocator, n: usize) mem.Allocator.Error![]Triplet {
-    var found = std.ArrayList(Triplet).init(allocator);
-    defer found.deinit();
+    var found: std.ArrayList(Triplet) = .empty;
+    defer found.deinit(allocator);
 
     for (3..n / 3) |a| {
         // a + b + c = n
@@ -47,9 +47,9 @@ pub fn tripletsWithSum(allocator: mem.Allocator, n: usize) mem.Allocator.Error![
             const c = n - a - b;
 
             if (Triplet.isValid(a, b, c))
-                try found.append(Triplet.init(a, b, c));
+                try found.append(allocator, Triplet.init(a, b, c));
         }
     }
 
-    return found.toOwnedSlice();
+    return found.toOwnedSlice(allocator);
 }
