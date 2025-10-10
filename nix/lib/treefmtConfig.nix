@@ -7,5 +7,6 @@ _: {
     shfmt.enable = true;
     zig.enable = true;
     mdformat.enable = true;
+    fourmolu.enable = true;
   };
 }

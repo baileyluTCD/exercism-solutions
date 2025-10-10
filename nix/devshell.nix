@@ -1,5 +1,5 @@
 { pkgs, flake }:
-pkgs.mkShellNoCC {
+pkgs.mkShell {
   packages = with pkgs; [
     exercism
 
@@ -7,5 +7,7 @@ pkgs.mkShellNoCC {
 
     swi-prolog
     flake.packages.${system}.test-prolog
+
+    stack
   ];
 }
